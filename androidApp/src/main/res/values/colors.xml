@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="default_window_background">#353846</color>
+
+    <!-- The user should never see this color. See ThemeAwareActivity.kt and ThemedWidgets.kt. -->
+    <color name="overscroll_canary">#FFD43D</color>
+</resources>

@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+  compileSdkVersion projectVersions.compileSdk
+  defaultConfig {
+    applicationId "me.saket.press"
+    minSdkVersion projectVersions.minSdk
+    targetSdkVersion projectVersions.compileSdk
+    versionCode 5
+    versionName "1.4"
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    archivesBaseName = "press_v${versionName}_(${versionCode})"
+  }
+
+  lintOptions {
+    lintConfig file("lint.xml")
+  }
+
+  buildTypes {
+    debug {
+      applicationIdSuffix ".debug"
+    }
+    release {
+      minifyEnabled false
+    }
+  }
+
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+}
+
+dependencies {
+  implementation project(':wysiwyg')
+  implementation project(':shared')
+  implementation project(':resourceinterceptor')
+
+    implementation deps.kotlin.stdlib.jdk8
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'com.google.android.material:material:1.1.0'
+
+    implementation 'app.cash.contour:contour:0.1.6'
+  implementation deps.timber
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
+    implementation deps.dagger.runtime
+  implementation deps.assistedInject.annotations
+    kapt deps.dagger.compiler
+  kapt deps.assistedInject.processor
+    implementation deps.multiplatformUuid
+  implementation deps.inboxRecyclerView
+  implementation deps.klock.android
+  implementation deps.itemAnimators
+  implementation deps.betterLinkMovementMethod
+
+  debugImplementation deps.flipper.debug.core
+    debugImplementation 'com.facebook.soloader:soloader:0.8.2'
+  releaseImplementation deps.flipper.release.core
+
+    testImplementation 'junit:junit:4.13'
+
+  androidTestImplementation deps.androidx.test.core
+  androidTestImplementation deps.androidx.test.runner
+    androidTestImplementation deps.androidx.test.jUnit
+    androidTestImplementation deps.androidx.test.jUnitKtx
+    androidTestImplementation 'com.google.truth:truth:1.0.1'
+}

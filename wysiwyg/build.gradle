@@ -1,0 +1,90 @@
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.multiplatform'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+  compileSdkVersion projectVersions.compileSdk
+  defaultConfig {
+    minSdkVersion projectVersions.minSdk
+  }
+
+  lintOptions {
+    lintConfig file("lint.xml")
+  }
+}
+
+// Not sure, but probably used by CocoaPods.
+version = 0.1
+
+kotlin {
+  android("android")
+
+//  def buildForDevice = project.findProperty("device")?.toBoolean() ?: false
+//  def iosTarget = (buildForDevice) ? iosArm64('ios') : iosX64('ios')
+//  iosTarget.binaries {
+//    framework {
+//      // Disable bitcode embedding for the simulator build.
+//      if (!buildForDevice) {
+//        embedBitcode("disable")
+//      }
+//    }
+//  }
+
+  sourceSets {
+    commonMain {
+      dependencies {
+        implementation kotlin('stdlib-common')
+      }
+    }
+    commonTest {
+      dependencies {
+        implementation kotlin('test-common')
+        implementation kotlin('test-annotations-common')
+        implementation deps.assertK.common
+        implementation deps.assertK.opentest4j  // https://youtrack.jetbrains.com/issue/IDEA-214533
+      }
+    }
+    androidMain {
+      dependencies {
+        implementation kotlin('stdlib')
+        implementation deps.androidx.appCompat
+        implementation deps.flexmark.core
+        implementation deps.flexmark.strikethrough
+        implementation deps.flexmark.autoLink
+        implementation deps.timber
+      }
+    }
+    androidTest {
+      dependencies {
+        implementation kotlin('test')
+        implementation kotlin('test-junit')
+      }
+    }
+//    iosMain {}
+//    iosTest {}
+
+    all {
+      languageSettings {
+        enableLanguageFeature('InlineClasses')
+      }
+    }
+  }
+}
+
+dependencies {}
+
+task copyFramework {
+//  def buildType = project.findProperty("kotlin.build.type") ?: "DEBUG"
+//  dependsOn "link${buildType.toLowerCase().capitalize()}FrameworkIos"
+//
+  doLast {
+//    def srcFile = kotlin.targets.ios.binaries.getFramework(buildType).outputFile
+//    def targetDir = getProperty("configuration.build.dir")
+//    copy {
+//      from srcFile.parent
+//      into targetDir
+//      include 'wysiwyg.framework/**'
+//      include 'wysiwyg.framework.dSYM'
+//    }
+  }
+}

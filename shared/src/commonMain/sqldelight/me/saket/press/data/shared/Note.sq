@@ -1,0 +1,49 @@
+import com.benasher44.uuid.Uuid;
+import com.soywiz.klock.DateTime;
+
+CREATE TABLE note (
+  localId INTEGER PRIMARY KEY AUTOINCREMENT,
+  uuid TEXT AS Uuid NOT NULL,
+  content TEXT NOT NULL,
+  createdAt TEXT AS DateTime NOT NULL,
+  updatedAt TEXT AS DateTime NOT NULL,
+  archivedAtString TEXT AS String,
+  deletedAtString TEXT AS String
+);
+
+CREATE INDEX note_content ON note(content);
+
+notes:
+SELECT *
+FROM note
+WHERE deletedAtString IS NULL AND archivedAtString IS NULL
+ORDER BY updatedAt DESC;
+
+note:
+SELECT *
+FROM note
+WHERE uuid = ?;
+
+insert:
+INSERT INTO note
+VALUES (?,?,?,?,?,?,?);
+
+updateContent:
+UPDATE note
+SET content = ?, updatedAt = ?
+WHERE uuid = ?;
+
+markAsDeleted:
+UPDATE note
+SET deletedAtString = ?
+WHERE uuid = ?;
+
+markAsArchived:
+UPDATE note
+SET archivedAtString = ?
+WHERE uuid = ?;
+
+-- Test functions
+testInsert:
+INSERT INTO note
+VALUES ?;
